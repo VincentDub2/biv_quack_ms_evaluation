@@ -25,9 +25,9 @@ jobs:
     # Construit l'image Docker
     - name: Build Docker Image
       run: |
-        docker build -t vincentdub/service-emplacements:latest -f Dockerfile .
+        docker build -t vincentdub/service-evaluations:latest -f Dockerfile .
 
     # Pousse l'image dans le repository centralisé
     - name: Push Docker Image
       run: |
-        docker push vincentdub/service-emplacements:latest
+        docker push vincentdub/service-evaluations:latest
