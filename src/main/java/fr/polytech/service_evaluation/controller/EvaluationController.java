@@ -1,11 +1,14 @@
 package fr.polytech.service_evaluation.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +36,22 @@ public class EvaluationController {
         return evaluationService.getEvaluation(id);
     }
 
+    @GetMapping
+    public List <Evaluation> getAllEvaluations() {
+        logger.info("Get all evaluations");
+        return evaluationService.getAllEvaluations();
+    }
+
     @PutMapping
     public Evaluation updateEvaluation(@RequestBody Evaluation evaluation) {
         logger.info("Update evaluation with id {}", evaluation.getId());
         return evaluationService.updateEvaluation(evaluation);
+    }
+
+    @PostMapping
+    public Evaluation createEvaluation(@RequestBody Evaluation evaluation) {
+        logger.info("Create evaluation");
+        return evaluationService.createEvaluation(evaluation);
     }
 
     @DeleteMapping("/{id}")

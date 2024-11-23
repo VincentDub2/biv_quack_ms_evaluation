@@ -1,5 +1,7 @@
 package fr.polytech.service_evaluation.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,10 @@ public class EvaluationService {
 
     public void deleteEvaluation(Long id) {
         evaluationRepository.deleteById(id);
+    }
+
+    public List<Evaluation> getAllEvaluations() {
+        return evaluationRepository.findAll();
     }
 
     public Integer getAverageNoteByHoteId(Long hoteId) {
