@@ -2,6 +2,7 @@ package fr.polytech.service_evaluation.controller;
 
 import java.util.List;
 
+import fr.polytech.service_evaluation.kafka.KafkaProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.polytech.service_evaluation.model.Evaluation;
 import fr.polytech.service_evaluation.service.EvaluationService;
+import fr.polytech.service_evaluation.dto.EvaluationEvent;
 
 @RestController
 @RequestMapping("/")
 public class EvaluationController {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(EvaluationController.class);
 
     private final EvaluationService evaluationService;
+
+    @Autowired
+    private KafkaProducer kafkaProducer;
+
 
     @Autowired
     public EvaluationController(EvaluationService evaluationService) {
@@ -51,6 +57,17 @@ public class EvaluationController {
     @PostMapping
     public Evaluation createEvaluation(@RequestBody Evaluation evaluation) {
         logger.info("Create evaluation");
+        EvaluationEvent event = new EvaluationEvent();
+        if (evaluation.getNote() < 3) {
+            event.setEvaluationType("NEGATIF");
+        } else event.setEvaluationType("POSITIF");
+
+        event.setUserId(evaluation.getVoyageurId());
+        event.setTarget(evaluation.getHoteId());
+        event.setMessage("Nouvelle évaluation reçue.");
+
+        kafkaProducer.sendEvaluationEvent(event);
+
         return evaluationService.createEvaluation(evaluation);
     }
 
@@ -84,7 +101,7 @@ public class EvaluationController {
         return evaluationService.getAverageNoteByEmplacementId(emplacementId);
     }
 
-}   
+}
 
 
 
