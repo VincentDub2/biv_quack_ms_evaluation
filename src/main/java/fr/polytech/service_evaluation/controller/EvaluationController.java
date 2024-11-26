@@ -57,14 +57,14 @@ public class EvaluationController {
     @PostMapping
     public Evaluation createEvaluation(@RequestBody Evaluation evaluation) {
         logger.info("Create evaluation");
-        EvaluationEvent event = new EvaluationEvent();
-        if (evaluation.getNote() < 3) {
-            event.setEvaluationType("NEGATIF");
-        } else event.setEvaluationType("POSITIF");
 
-        event.setUserId(evaluation.getVoyageurId());
-        event.setTarget(evaluation.getHoteId());
-        event.setMessage("Nouvelle évaluation reçue.");
+        EvaluationEvent event = new EvaluationEvent();
+        event.setCommentaire(evaluation.getCommentaire());
+        event.setNote(evaluation.getNote());
+        event.setEmplacementId(evaluation.getEmplacementId());
+        event.setHoteId(evaluation.getHoteId());
+        event.setReservationId(evaluation.getReservationId());
+        event.setVoyageurId(evaluation.getVoyageurId());
 
         kafkaProducer.sendEvaluationEvent(event);
 
