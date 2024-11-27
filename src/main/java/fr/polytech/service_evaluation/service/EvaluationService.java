@@ -50,6 +50,10 @@ public class EvaluationService {
         return evaluationRepository.findByReservationId(reservationId);
     }
 
+    public List<Evaluation> getEvaluationsByEmplacementId(Long emplacementId) {
+        return evaluationRepository.findByEmplacementId(emplacementId);
+    }
+
     public Integer getAverageNoteByReservationId(Long reservationId) {
         return evaluationRepository.findByReservationId(reservationId).stream().mapToInt(Evaluation::getNote).sum() / evaluationRepository.findByReservationId(reservationId).size();
     }
