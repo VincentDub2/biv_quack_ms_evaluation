@@ -83,6 +83,12 @@ public class EvaluationController {
         return evaluationService.getAverageNoteByHoteId(hoteId);
     }
 
+    @GetMapping("/reservation/{reservationId}")
+    public List<Evaluation> getEvaluationsByReservationId(@PathVariable Long reservationId) {
+        logger.info("Get evaluations by reservation id {}", reservationId);
+        return evaluationService.getEvaluationsByReservationId(reservationId);
+    }
+
     @GetMapping("/voyageur/{voyageurId}/average-note")
     public Integer getAverageNoteByVoyageurId(@PathVariable Long voyageurId) {
         logger.info("Get average note by voyageur id {}", voyageurId);

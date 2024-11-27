@@ -10,7 +10,7 @@ import fr.polytech.service_evaluation.repository.EvaluationRepository;
 
 @Service
 public class EvaluationService {
-    
+
     private final EvaluationRepository evaluationRepository;
 
     @Autowired
@@ -44,6 +44,10 @@ public class EvaluationService {
 
     public Integer getAverageNoteByVoyageurId(Long voyageurId) {
         return evaluationRepository.findByVoyageurId(voyageurId).stream().mapToInt(Evaluation::getNote).sum() / evaluationRepository.findByVoyageurId(voyageurId).size();
+    }
+
+    public List<Evaluation> getEvaluationsByReservationId(Long reservationId) {
+        return evaluationRepository.findByReservationId(reservationId);
     }
 
     public Integer getAverageNoteByReservationId(Long reservationId) {
